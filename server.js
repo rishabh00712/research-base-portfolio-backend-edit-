@@ -52,4 +52,19 @@ app.use("/api", footer);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+
+  // Keep-alive for Render's free tier: ping our own public URL every 10 minutes.
+  // Render sets RENDER_EXTERNAL_URL automatically, so this does nothing locally.
+  const selfUrl = process.env.RENDER_EXTERNAL_URL || process.env.SELF_URL;
+  if (selfUrl) {
+    const INTERVAL_MS = 10 * 60 * 1000; // under Render's 15-minute idle limit
+    setInterval(async () => {
+      try {
+        const r = await fetch(selfUrl.replace(/\/+$/, "") + "/");
+        console.log(`[keep-alive] ping -> ${r.status}`);
+      } catch (err) {
+        console.error("[keep-alive] ping failed:", err.message);
+      }
+    }, INTERVAL_MS);
+  }
 });

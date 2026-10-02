@@ -15,18 +15,19 @@ const footer = require("./routes/footerRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5001;
-
 const allowedOrigins = [
   process.env.CLIENT_URL,
   "https://sayanchattopadhyay.vercel.app",
-].filter(Boolean);
+  "http://localhost:5173",
+]
+  .filter(Boolean)
+  .map((o) => o.trim().replace(/\/+$/, ""));
 
 app.use(
-  cors({-
+  cors({
     origin: (origin, cb) => {
-      // allow requests with no origin (curl, Postman) and the listed origins
       if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
-      cb(new Error("Not allowed by CORS"));
+      return cb(null, false);
     },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "x-admin-key"],

@@ -18,11 +18,11 @@ const PORT = process.env.PORT || 5001;
 
 const allowedOrigins = [
   process.env.CLIENT_URL,
-  "https://sayanchattopadhyay.vercel.app/",
+  "https://sayanchattopadhyay.vercel.app",
 ].filter(Boolean);
 
 app.use(
-  cors({
+  cors({-
     origin: (origin, cb) => {
       // allow requests with no origin (curl, Postman) and the listed origins
       if (!origin || allowedOrigins.includes(origin)) return cb(null, true);

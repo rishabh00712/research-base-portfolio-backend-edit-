@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 5001;
 
 const allowedOrigins = [
   process.env.CLIENT_URL,
-  "http://localhost:5174",
+  "https://sayanchattopadhyay.vercel.app/",
 ].filter(Boolean);
 
 app.use(
